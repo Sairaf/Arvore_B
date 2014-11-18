@@ -45,7 +45,7 @@ public class Arvore_B {
     }
 
     public void Insere(int dado){
-      if(Busca(raiz, dado) == false)  {
+      if(Busca(raiz, dado) == null)  {
           if(raiz.getTam_Pagina() == 0){
               raiz.getChaves().set(0, dado);
               raiz.setTam_Pagina(raiz.getTam_Pagina()+1);
@@ -117,6 +117,61 @@ public class Arvore_B {
 
     }
     
-
+  public void Insere_Pag_NCheia(Pagina nova,int dado){
+      int aux_Tam = nova.getTam_Pagina()-1;
+      if(nova.isE_Folha()){
+       while(aux_Tam >=0 &&dado<nova.getChaves().get(aux_Tam))   {
+           nova.getChaves().set(ordem+1, nova.getChaves().get(aux_Tam));
+           aux_Tam--;
+       }
+       aux_Tam++;
+      
+       nova.getChaves().set(ordem, dado);
+       nova.setTam_Pagina(nova.getTam_Pagina()+1);
+      }else{
+         while(aux_Tam >=0 &&dado<nova.getChaves().get(aux_Tam))   {
+           aux_Tam--;
+         }  
+         aux_Tam++;
+         if((nova.getFilhos().get(aux_Tam)).getTam_Pagina() == 1){
+           Dividir_Pagina(nova, nova.getFilhos().get(aux_Tam), aux_Tam) ;
+           if(dado > nova.getChaves().get(aux_Tam)){
+               aux_Tam++;
+           }
+         }
+      }
+      Insere_Pag_NCheia(nova.getFilhos().get(aux_Tam),dado);
+  }
+  
+  public Pagina Busca(Pagina pagina, int dado){
+     int cont = 1;
+     while(cont <= pagina.getTam_Pagina()&&dado > pagina.getChaves().get(cont -1)){
+        cont++; 
+     }
+      if(cont <= pagina.getTam_Pagina()&&dado == pagina.getChaves().get(cont -1)){
+        return pagina; 
+     }
+      if(pagina.isE_Folha()){
+        return null;   
+      }else{
+        return (Busca(pagina.getFilhos().get(cont-1),dado ));
+      }
+     
+  }
     
+  
+  public void Remove(int dado){
+      if(Busca(this.raiz, dado) != null){
+          Pagina aux_Pagina = Busca(this.raiz, dado);
+          int cont = 1;
+          
+          while(aux_Pagina.getChaves().get(cont - 1) < dado){
+            cont++;
+          }
+        
+          if(aux_Pagina.isE_Folha()){
+              for(int i = 1 + cont;)
+          }
+      }
+     }
 }
