@@ -72,6 +72,51 @@ public class Arvore_B {
      Pagina aux_Pag = new Pagina(ordem);
      aux_Pag.setE_Folha(filho.isE_Folha());
      aux_Pag.setTam_Pagina(aux_Div);
-    }    
+     
+     for(int i = 0; i < aux_Div;i++)  {
+         if((ordem -1)% 2 == 0){
+             aux_Pag.getChaves().set(i, filho.getChaves().get(i + aux_Div));
+         }else{
+            aux_Pag.getChaves().set(i, filho.getChaves().get(i + aux_Div+1)); 
+         }
+         filho.setTam_Pagina(filho.getTam_Pagina()-1);
+       }
+     
+     if(!aux_Pag.isE_Folha()){
+         for(int i = 0; i < aux_Div;i++)  {
+         if((ordem -1)% 2 == 0){
+             aux_Pag.getFilhos().set(i, filho.getFilhos().get(i + aux_Div));
+         }else{
+            aux_Pag.getFilhos().set(i, filho.getFilhos().get(i + aux_Div+1)); 
+         }
+         
+       }
+     } 
+     
+     filho.setTam_Pagina(aux_Div);
+     
+     for(int i = pai.getTam_Pagina(); i> pos;i--){
+         pai.getFilhos().set(i+1, pai.getFilhos().get(i));
+     }
+         pai.getFilhos().set(pos+1, aux_Pag);
+       
+     for(int i = pai.getTam_Pagina(); i> pos;i--){
+         pai.getChaves().set(i+1, pai.getChaves().get(i-1));
+     }
+       
+      if ((ordem - 1) % 2 == 0) {
+            pai.getChaves().set(pos, filho.getChaves().get(aux_Div - 1));
+            filho.setTam_Pagina(filho.getTam_Pagina()- 1);
+            
+        } else {
+            pai.getChaves().set(pos,filho.getChaves().get(aux_Div));
+        }
+
+        
+        pai.setTam_Pagina(pai.getTam_Pagina()+ 1);
+
+    }
+    
+
     
 }
